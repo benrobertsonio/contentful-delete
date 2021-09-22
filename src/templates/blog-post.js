@@ -3,7 +3,7 @@ import { graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
 import get from 'lodash/get'
 import Img from 'gatsby-image'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
 import { hero, heroImage } from '../components/hero.module.css'
 
@@ -11,10 +11,6 @@ import { hero, heroImage } from '../components/hero.module.css'
 const BlogPostTemplate = ({ data, ...props }) => {
   const post = get(data, 'contentfulBlogPost')
   const siteTitle = get(data, 'site.siteMetadata.title')
-
-
-  console.log({ data });
-
 
   return (
     <Layout location={props.location}>
