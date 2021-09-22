@@ -1,4 +1,3 @@
-const Promise = require('bluebird')
 const path = require('path')
 
 
@@ -41,12 +40,15 @@ exports.createPages = async ({ graphql, actions }) => {
   })
 
   // Create arbitrary pages
-  for (let index = 0; index < 10000; index++) {
+  for (let index = 0; index < 100; index++) {
+    const splines = await reticulateSplines()
+
     createPage({
       path: `/test/${index}`,
       component: path.resolve(`./src/templates/test-template.js`),
       context: {
-        page: index
+        page: index,
+        splines
       }
     })
 
@@ -54,7 +56,38 @@ exports.createPages = async ({ graphql, actions }) => {
 }
 
 
+
+
 exports.onPostBuild = () => {
 
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function reticulateSplines(ms = 500) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
