@@ -7,41 +7,50 @@ import Layout from '../components/layout'
 
 import { hero, heroImage } from '../components/hero.module.css'
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = get(this.props, 'data.contentfulBlogPost')
-    const siteTitle = get(this.props, 'data.site.siteMetadata.title')
 
-    return (
-      <Layout location={this.props.location}>
-        <div style={{ background: '#fff' }}>
-          <Helmet title={`${post.title} | ${siteTitle}`} />
-          <div className={hero}>
-            <Img
-              className={heroImage}
-              alt={post.title}
-              fluid={post.heroImage.fluid}
-            />
-          </div>
-          <div className="wrapper">
-            <h1 className="section-headline">{post.title}</h1>
-            <p
-              style={{
-                display: 'block',
-              }}
-            >
-              {post.publishDate}
-            </p>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: post.body.childMarkdownRemark.html,
-              }}
-            />
-          </div>
+const BlogPostTemplate = ({ data, ...props }) => {
+  const post = get(data, 'contentfulBlogPost')
+  const siteTitle = get(data, 'site.siteMetadata.title')
+
+
+  console.log({ data });
+
+
+  return (
+    <Layout location={props.location}>
+      <div style={{ background: '#fff' }}>
+        <Helmet title={`${post.title} | ${siteTitle}`} />
+        <div className={hero}>
+          <Img
+            className={heroImage}
+            alt={post.title}
+            fluid={post.heroImage.fluid}
+          />
         </div>
-      </Layout>
-    )
-  }
+        <div className="wrapper">
+          <h1 className="section-headline">{post.title}</h1>
+          <p
+            style={{
+              display: 'block',
+            }}
+          >
+            {post.publishDate}
+          </p>
+          <div>
+            Tags:&nbsp;
+            {data.contentfulBlogPost.tags.map((tag) => (
+              <span>{tag}, </span>
+            ))}
+          </div>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: post.body.childMarkdownRemark.html,
+            }}
+          />
+        </div>
+      </div>
+    </Layout>
+  )
 }
 
 export default BlogPostTemplate
@@ -56,6 +65,7 @@ export const pageQuery = graphql`
           ...GatsbyContentfulFluid_tracedSVG
         }
       }
+      tags
       body {
         childMarkdownRemark {
           html
